@@ -1,0 +1,57 @@
+﻿/* Загальні стилі для сторінки реєстрації */
+.register {
+    padding: 40px 0;
+    text-align: center;
+}
+
+    .register form {
+        display: block;
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .register label {
+        display: block;
+        margin: 10px 0 5px;
+        font-weight: bold;
+    }
+
+    .register input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .register button {
+        width: 100%;
+        padding: 10px;
+        background: #f04e1e;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .register button:hover {
+            background: #e04d1e;
+        }
+
+    .register p {
+        margin-top: 20px;
+    }
+
+    .register a {
+        color: #f04e1e;
+        text-decoration: none;
+    }
+
+        .register a:hover {
+            text-decoration: underline;
+        }

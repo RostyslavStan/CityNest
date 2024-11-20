@@ -1,0 +1,149 @@
+﻿/* Загальні стилі для сторінки */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* HEADER */
+header {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+    header .logo h1 {
+        font-size: 28px;
+    }
+
+/* PROPERTY DETAILS */
+.property-details {
+    padding: 40px 0;
+    background-color: #fff;
+    margin-top: 20px;
+}
+
+.property-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+    .property-header h2 {
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .property-header .price {
+        font-size: 24px;
+        color: #f04e1e;
+        font-weight: bold;
+    }
+
+.property-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+    .property-info .images {
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+        .property-info .images img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .property-info .details {
+        flex: 1;
+        font-size: 16px;
+    }
+
+        .property-info .details p {
+            margin-bottom: 10px;
+        }
+
+        .property-info .details strong {
+            font-weight: bold;
+        }
+
+/* PROPERTY CARD */
+#property-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.property-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    background-color: #fff;
+}
+
+    .property-card img {
+        width: 100%;
+        height: auto;
+        border-bottom: 1px solid #ddd;
+    }
+
+.property-card-content {
+    padding: 15px;
+}
+
+    .property-card-content h2 {
+        font-size: 1.2em;
+        margin: 0 0 10px;
+    }
+
+    .property-card-content p {
+        margin: 8px 0;
+    }
+
+/* AGENT INFO */
+.agent-info {
+    margin-top: 40px;
+    text-align: center;
+}
+
+    .agent-info h3 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .agent-info p {
+        font-size: 16px;
+    }
+
+    .agent-info a {
+        color: #f04e1e;
+        text-decoration: none;
+    }
+
+        .agent-info a:hover {
+            text-decoration: underline;
+        }
+
+/* FOOTER */
+footer {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}

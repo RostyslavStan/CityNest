@@ -1,0 +1,44 @@
+﻿/* Загальні стилі для сторінки Properties */
+.properties {
+    padding: 40px 0;
+    background: #fff;
+}
+
+.property-card {
+    display: inline-block;
+    margin: 10px;
+    width: 23%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    text-align: center;
+    background: #fff;
+}
+
+    .property-card img {
+        width: 100%;
+        height: auto;
+    }
+
+    .property-card .price {
+        font-size: 18px;
+        color: #f04e1e;
+        margin: 10px 0;
+    }
+
+    .property-card h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .property-card .button {
+        background: #f04e1e;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+        .property-card .button:hover {
+            background: #e04d1e;
+        }

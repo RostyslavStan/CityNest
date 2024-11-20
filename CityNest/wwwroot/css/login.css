@@ -1,0 +1,57 @@
+﻿/* Загальні стилі для сторінки Login */
+.login {
+    padding: 40px 0;
+    text-align: center;
+}
+
+    .login form {
+        display: block;
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .login label {
+        display: block;
+        margin: 10px 0 5px;
+        font-weight: bold;
+    }
+
+    .login input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .login button {
+        width: 100%;
+        padding: 10px;
+        background: #f04e1e;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .login button:hover {
+            background: #e04d1e;
+        }
+
+    .login p {
+        margin-top: 20px;
+    }
+
+    .login a {
+        color: #f04e1e;
+        text-decoration: none;
+    }
+
+        .login a:hover {
+            text-decoration: underline;
+        }

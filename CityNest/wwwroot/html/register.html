@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація</title>
+    <link rel="stylesheet" href="/css/register.css">
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="logo">CityNest</div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Головна</a></li>
+                    <li><a href="properties.html">Оголошення</a></li>
+                    <li><a href="agents.html">Агенти</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="/html/login.html" class="button">Увійти</a> <!-- Changed <Link> to <a> -->
+                <a href="/html/register.html" class="button">Реєстрація</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Registration Section -->
+    <section class="register">
+        <div class="container">
+            <h2>Реєстрація</h2>
+            <form onsubmit="register(event)">
+                <label for="name">Ім'я:</label>
+                <input type="text" id="name" name="name" required />
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required />
+
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password" required />
+
+                <label for="phone">Телефон:</label>
+                <input type="tel" id="phone" name="phone" required />
+
+                <button type="submit" class="button">Зареєструватися</button>
+            </form>
+            <p>Вже маєте обліковий запис? <a href="login.html">Увійти</a></p>
+        </div>
+    </section>
+
+    <script>
+        async function register(event) {
+            event.preventDefault(); // Перешкоджає стандартній поведінці надсилання форми
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const phone = document.getElementById("phone").value;
+
+            const response = await fetch('/Users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ Name: name, Email: email, Password: password, PhoneNumber: parseInt(phone) })
+            });
+
+            if (response.ok) {
+                alert("Реєстрація успішна!");
+                window.location.href = "login.html";
+            } else {
+                alert("Помилка реєстрації. Спробуйте ще раз.");
+            }
+        }
+    </script>
+</body>
+</html>

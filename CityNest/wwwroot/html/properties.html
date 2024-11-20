@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properties List</title>
+    <link rel="stylesheet" href="/css/properties.css">
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">CityNest</div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Головна</a></li>
+                    <li><a href="properties.html">Оголошення</a></li>
+                    <li><a href="agents.html">Агенти</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="/html/login.html" class="button">Увійти</a> <!-- Changed <Link> to <a> -->
+                <a href="/html/register.html" class="button">Реєстрація</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="filters">
+            <label for="sort-field">Сортувати за:</label>
+            <select id="sort-field">
+                <option value="price">Ціна</option>
+                <option value="date">Дата</option>
+                <option value="title">Назва</option>
+            </select>
+
+            <label for="sort-order">Порядок:</label>
+            <select id="sort-order">
+                <option value="asc">Зростання</option>
+                <option value="desc">Спадання</option>
+            </select>
+
+            <button onclick="fetchProperties()">Фільтрувати</button>
+        </div>
+
+        <ul id="properties-list" class="properties">
+            <!-- Тут будуть динамічно завантажені картки нерухомості -->
+        </ul>
+    </div>
+
+    <script>
+        // Функція для отримання і відображення карток нерухомості
+        function fetchProperties() {
+            const sortField = document.getElementById('sort-field').value;
+            const sortOrder = document.getElementById('sort-order').value;
+
+            fetch(`/Properties/filter?sortItem=${sortField}&sortOrder=${sortOrder}`)
+                .then(response => response.json())
+                .then(data => {
+                    const propertiesList = document.getElementById('properties-list');
+                    propertiesList.innerHTML = ''; // Очищаємо список перед заповненням
+                    data.properties.forEach(property => {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'property-card';
+                        listItem.innerHTML = `
+                                <img src="${property.images[0]}" alt="Image">
+                                <h3>${property.title}</h3>
+                                <p>Адреса: ${property.address}</p>
+                                <p class="price">₴${property.price}</p>
+                                <a href="property.html?id=${property.id}" class="button">Деталі</a>
+                            `;
+                        propertiesList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching properties:', error));
+        }
+
+        // Виклик функції при завантаженні сторінки
+        document.addEventListener("DOMContentLoaded", fetchProperties);
+    </script>
+</body>
+</html>
