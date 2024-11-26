@@ -17,6 +17,16 @@ namespace CityNest
             return await propertiesRepository.Get();
         }
 
+        public async Task<Property> GetProperty(string title)
+        {
+            return await propertiesRepository.GetProperty(title);
+        }
+
+        public async Task<List<PropertyDtoCard>> GetFilter()
+        {
+            return await propertiesRepository.GetFilter();
+        }
+
         public async Task CreateProperty(Property property)
         {
             await propertiesRepository.Add(property);

@@ -2,8 +2,8 @@
 {
     public enum OfferType
     {
-        Sale,
-        Rent,
-        Daily
+        Sale = 0,
+        Rent = 1,
+        Daily = 2
     }
 }

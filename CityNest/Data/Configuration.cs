@@ -8,24 +8,26 @@ namespace CityNest
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(u => u.Id);
-
-            builder.HasMany(a => a.Properties)
-            .WithOne(u => u.User);
-
-            builder.HasMany(u => u.Roles)
-                .WithMany(r => r.Users)
-                .UsingEntity<UserRoleEntity>(
-                u => u.HasOne<RoleEntity>().WithMany().HasForeignKey(r => r.RoleId),
-                r => r.HasOne<User>().WithMany().HasForeignKey(u => u.UserId));
         }
     }
+
+    public class AgentConfiguration : IEntityTypeConfiguration<Agent>
+    {
+        public void Configure(EntityTypeBuilder<Agent> builder)
+        {
+            builder.HasKey(u => u.Id);
+            builder.HasMany(a => a.Properties)
+                .WithOne(a => a.Agent);
+        }
+    }
+
     public class PropertyConfiguration : IEntityTypeConfiguration<Property>
     {
         public void Configure(EntityTypeBuilder<Property> builder)
         {
             builder.HasKey(u => u.Id);
 
-            builder.HasOne(a => a.User)
+            builder.HasOne(a => a.Agent)
             .WithMany(u => u.Properties);
         }
     }

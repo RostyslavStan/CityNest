@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
+using System.Xml.Linq;
 
 namespace CityNest
 {
@@ -29,13 +30,6 @@ namespace CityNest
             var token = await usersServices.Login(request.password, request.email);
 
             HttpContext.Response.Cookies.Append("testy-cookies", token);
-            return Ok(token);
-        }
-
-        [HttpPost("GetToken")]
-        public async Task<IActionResult> GetToken([FromBody] User user)
-        {
-            var token = jwtProvider.GenerateToken(user);
             return Ok(new { Token = token });
         }
 
@@ -52,5 +46,6 @@ namespace CityNest
             await usersServices.Update(user);
             return Ok();
         }
+
     }
 }

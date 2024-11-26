@@ -8,6 +8,30 @@ namespace CityNest
         {
             return await dbContext.Properties.AsNoTracking().ToListAsync();
         }
+        public async Task<Property> GetProperty(string title)
+        {
+            var property = await dbContext.Properties
+             .Where(p => p.Title == title)  // фільтруємо за id
+                .FirstOrDefaultAsync();
+            return property;
+        }
+        public async Task<List<PropertyDtoCard>> GetFilter()
+        {
+            // Вибір лише потрібних полів з бази даних
+            return await dbContext.Properties
+                .AsNoTracking()  // Для покращення продуктивності
+                .Select(n => new PropertyDtoCard(
+                    n.Title,        // Назва
+                    n.City,         // Місто
+                    n.Price,        // Ціна
+                    n.Rooms,        // Кількість кімнат
+                    n.Square,       // Площа
+                    n.Images        // Список зображень
+                ))
+                .ToListAsync();
+        }
+
+
 
         public async Task Add(Property property)
         {

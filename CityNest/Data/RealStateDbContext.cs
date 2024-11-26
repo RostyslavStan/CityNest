@@ -1,21 +1,18 @@
-﻿using CityNest.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CityNest
 {
-    public class RealStateDbContext(DbContextOptions<RealStateDbContext> options, IOptions<AuthorizationOptions> authOptions) : DbContext(options)
+    public class RealStateDbContext(DbContextOptions<RealStateDbContext> options) : DbContext(options)
     {
         public DbSet<Property> Properties { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<RoleEntity> Roles { get; set; }
+        public DbSet<Agent> Agents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new PropertyConfiguration());
-            modelBuilder.ApplyConfiguration(new RolePermissionConfiguration(authOptions.Value));
+            modelBuilder.ApplyConfiguration(new AgentConfiguration());
 
             modelBuilder.Entity<Property>()
                 .Property(p => p.PropertyType)

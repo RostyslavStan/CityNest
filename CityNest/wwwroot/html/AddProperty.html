@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Додати нерухомість</title>
+    <link rel="stylesheet" href="/css/AddProperty.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">CityNest</div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Головна</a></li>
+                    <li><a href="/html/properties.html">Оголошення</a></li>
+                    <li><a href="/html/agents.html">Агенти</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="/html/account.html" class="account-button">Особистий кабінет</a>
+                <a href="/html/AddProperty.html" class="add-property-button">Додати оголошення</a>
+                <a href="/html/login.html" class="button">Увійти</a>
+                <a href="/html/register.html" class="button">Реєстрація</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ADD PROPERTY FORM SECTION -->
+    <section class="add-property">
+        <div class="container">
+            <h1>Додати нове оголошення</h1>
+            <form id="addPropertyForm">
+                <div class="form-group">
+                    <label for="title">Назва:</label>
+                    <input type="text" id="title" name="title" required />
+                </div>
+                <div class="form-group">
+                    <label for="description">Опис:</label>
+                    <textarea id="description" name="description" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="address">Адреса:</label>
+                    <input type="text" id="address" name="address" required />
+                </div>
+                <div class="form-group">
+                    <label for="city">Місто:</label>
+                    <input type="text" id="city" name="city" required />
+                </div>
+                <div class="form-group">
+                    <label for="region">Регіон:</label>
+                    <input type="text" id="region" name="region" required />
+                </div>
+                <div class="form-group">
+                    <label for="postalCode">Поштовий індекс:</label>
+                    <input type="number" id="postalCode" name="postalCode" required />
+                </div>
+                <div class="form-group">
+                    <label for="price">Ціна ($):</label>
+                    <input type="number" id="price" name="price" required />
+                </div>
+                <div class="form-group">
+                    <label for="rooms">Кількість кімнат:</label>
+                    <input type="number" id="rooms" name="rooms" required />
+                </div>
+                <div class="form-group">
+                    <label for="square">Площа (м²):</label>
+                    <input type="number" id="square" name="square" required />
+                </div>
+                <div class="form-group">
+                    <label for="propertyType">Тип нерухомості:</label>
+                    <select id="propertyType" name="propertyType" required>
+                        <option value="0">Квартири</option>
+                        <option value="1">Будинки</option>
+                        <option value="2">Комерційна нерухомість</option>
+                        <option value="3">Земельні ділянки</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="offerType">Тип пропозиції:</label>
+                    <select id="offerType" name="offerType" required>
+                        <option value="0">Продаж</option>
+                        <option value="1">Оренда</option>
+                        <option value="2">Добова оренда</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="isForSale">Продається?</label>
+                    <select id="isForSale" name="isForSale" required>
+                        <option value="true">Так</option>
+                        <option value="false">Ні</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="images">Зображення (URL через кому):</label>
+                    <input type="text" id="images" name="images" />
+                </div>
+                <div class="form-group">
+                    <label for="agentsId">ID агентів:</label>
+                    <input type="text" id="agentsId" name="agentsId" required />
+                </div>
+                <button type="submit" class="button">Додати</button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        // Додаємо обробник події для форми
+        document.getElementById('addPropertyForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Запобігаємо перезавантаженню сторінки при відправці форми
+
+            // Збираємо дані з форми
+            const formData = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                region: document.getElementById('region').value,
+                postalCode: parseInt(document.getElementById('postalCode').value), // перетворюємо на число
+                price: parseFloat(document.getElementById('price').value),
+                rooms: parseInt(document.getElementById('rooms').value),
+                square: parseFloat(document.getElementById('square').value),
+                propertyType: parseInt(document.getElementById('propertyType').value),
+                offerType: parseInt(document.getElementById('offerType').value),
+                isForSale: document.getElementById('isForSale').value === 'true', // перетворюємо на булевий тип
+                images: document.getElementById('images').value.split(','), // розбиваємо за комами
+                agentsId: document.getElementById('agentsId').value,
+                dateUpdated: new Date().toISOString() // поточна дата
+            };
+
+            // Відправка даних на сервер
+            fetch('http://localhost:5094/Properties/Create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer YOUR_TOKEN_HERE' // Додайте токен
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Помилка відповіді сервера');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Успіх:', data);
+                    alert('Оголошення успішно додано!');
+                })
+                .catch(error => {
+                    console.error('Помилка:', error);
+                    alert('Помилка при додаванні оголошення.');
+                });
+        });
+    </script>
+
+</body>
+</html>

@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace CityNest
 {
@@ -34,20 +35,23 @@ namespace CityNest
                 };
             });
 
-            services.AddAuthorization();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("UserPolicy", policy =>
+                {
+                    policy.RequireRole("User"); 
+                    policy.RequireClaim("User", "true"); 
+                });
 
+                options.AddPolicy("AgentPolicy", policy =>
+                {
+                    policy.RequireClaim("Agent", "true"); 
 
-            services.AddScoped<IPermissionService, PermissionService>();
-            services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
-            services.AddAuthorization();
-        }
-
-        public static IEndpointConventionBuilder RequirePermissions<TBuilder>(
-            this TBuilder builder, params Permission[] permissions)
-            where TBuilder : IEndpointConventionBuilder
-        {
-            return builder.RequireAuthorization(policy =>
-            policy.AddRequirements(new PermissionReqiarement(permissions)));
+                    policy.RequireRole("Agent");
+                    policy.RequireAssertion(context =>
+                    context.User.HasClaim(c => c.Type == ClaimTypes.Email && c.Value.EndsWith("@lnu.edu.ua")));
+                });
+            });
         }
     }
 }

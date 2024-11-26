@@ -1,16 +1,8 @@
 using CityNest;
 using CityNest.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.AspNetCore.CookiePolicy;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<CityNest.AuthorizationOptions>(builder.Configuration.GetSection(nameof(CityNest.AuthorizationOptions)));
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
 builder.Services.AddScoped<IUsersServices, UsersServices>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
@@ -20,12 +12,9 @@ builder.Services.AddApiAuthentication(builder.Configuration);
 builder.Services.AddScoped<IPropertiesServices, PropertiesServices>();
 builder.Services.AddScoped<IPropertiesRepository, PropertiesRepository>();
 
+builder.Services.AddScoped<IAgentsRepository, AgentsRepository>();
+
 builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
-
-
-builder.Services.AddScoped<IPermissionService, PermissionService>();
-builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
-builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<RealStateDbContext>();
 
@@ -33,14 +22,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin()  // Дозволяє запити з будь-якого джерела
-            .AllowAnyMethod()  // Дозволяє будь-який HTTP метод
-            .AllowAnyHeader();  // Дозволяє будь-які заголовки
+        policy.AllowAnyOrigin()  
+            .AllowAnyMethod() 
+            .AllowAnyHeader();  
     });
 });
 

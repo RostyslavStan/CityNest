@@ -27,6 +27,25 @@
     .auth-buttons .add-property-button {
         margin-left: 20px;
     }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
 /* HEADER */
 header {
     background: #333;
@@ -90,60 +109,82 @@ nav {
     }
 
 
-/* Загальні стилі для сторінки реєстрації */
-.register {
+/* Особистий кабінет */
+.profile {
     padding: 40px 0;
+}
+
+    .profile h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+.user-info {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+    .user-info p {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+
+.user-actions {
+    margin-top: 30px;
+}
+
+    .user-actions h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .user-actions ul {
+        list-style: none;
+        text-align: center;
+    }
+
+        .user-actions ul li {
+            margin-bottom: 10px;
+        }
+
+            .user-actions ul li a {
+                color: #f04e1e;
+                text-decoration: none;
+                font-size: 18px;
+                padding: 10px 20px;
+                border-radius: 5px;
+                background: #f9f9f9;
+                transition: background-color 0.3s;
+            }
+
+                .user-actions ul li a:hover {
+                    background-color: #f04e1e;
+                    color: white;
+                }
+
+/* Якщо користувач є агентом, то відображаємо додаткові дії */
+.agent-action {
+    display: none;
+}
+
+/* Стиль для агентів */
+.agent-role .agent-action {
+    display: block;
+}
+
+/* FOOTER */
+footer {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
     text-align: center;
 }
 
-    .register form {
-        display: block;
-        width: 100%;
-        max-width: 500px;
-        margin: auto;
-        background: #f9f9f9;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    footer .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
     }
-
-    .register label {
-        display: block;
-        margin: 10px 0 5px;
-        font-weight: bold;
-    }
-
-    .register input {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-
-    .register button {
-        width: 100%;
-        padding: 10px;
-        background: #f04e1e;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-        .register button:hover {
-            background: #e04d1e;
-        }
-
-    .register p {
-        margin-top: 20px;
-    }
-
-    .register a {
-        color: #f04e1e;
-        text-decoration: none;
-    }
-
-        .register a:hover {
-            text-decoration: underline;
-        }

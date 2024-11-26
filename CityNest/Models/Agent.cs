@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
-namespace CityNest
+﻿namespace CityNest
 {
-    public class User
+    public class Agent
     {
-        public User(Guid id, string name, string email, string passwordHash, long phoneNumber)
+        public Agent(Guid id, string name, string email, string passwordHash, long phoneNumber)
         {
             Id = id;
             Name = name;
@@ -18,5 +16,5 @@ namespace CityNest
         public string PasswordHash { get; set; } = string.Empty;
         public long PhoneNumber { get; set; }
         public List<Property>? Properties { get; set; }
-    }   
+    }
 }

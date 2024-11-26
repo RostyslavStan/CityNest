@@ -232,3 +232,310 @@ footer nav ul {
     footer nav ul li {
         margin: 0 15px;
     }
+/* Нові кнопки */
+.auth-buttons .account-button,
+.auth-buttons .add-property-button {
+    background-color: #f04e1e;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+    .auth-buttons .account-button:hover,
+    .auth-buttons .add-property-button:hover {
+        background-color: #d04a1c; /* Темніший колір при наведенні */
+    }
+
+/* Розміщення кнопок в хедері */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+}
+
+    .auth-buttons .account-button {
+        margin-left: 20px; /* Відстань між кнопками */
+    }
+
+    .auth-buttons .add-property-button {
+        margin-left: 20px;
+    }
+/* Основні стилі для контейнера результатів пошуку */
+.search-results {
+    padding: 20px;
+    background-color: #f4f4f4;
+    margin-top: 30px;
+}
+
+    .search-results h2 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: #333;
+        text-align: center;
+    }
+
+/* Загальні стилі */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* Стилі для карток оголошень */
+.property {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    padding: 20px;
+    transition: transform 0.3s ease;
+    max-width: 400px;
+    width: 100%;
+}
+
+    .property:hover {
+        transform: translateY(-5px);
+    }
+
+    .property h3 {
+        margin-top: 0;
+        font-size: 1.5em;
+        color: #333;
+    }
+
+    .property p {
+        margin: 10px 0;
+        color: #666;
+    }
+
+    /* Стилі для блоку з ціною */
+    .property .price {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #e67e22;
+    }
+
+/* Стилі для контейнера результатів пошуку */
+.search-results {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Стилі для кнопки пошуку */
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+#searchInput {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+}
+
+#searchButton {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    #searchButton:hover {
+        background-color: #2980b9;
+    }
+
+
+/* Адаптивність */
+@media (max-width: 768px) {
+    .property {
+        max-width: 100%;
+        margin: 10px 0;
+    }
+
+    .search-box {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+/* Картка для кожного запису */
+.property {
+    background-color: #fff; /* Білий фон */
+    border-radius: 8px; /* Округлені краї */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тінь для картки */
+    margin: 20px 0; /* Відступи між картками */
+    padding: 20px; /* Внутрішній відступ */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Анімація при наведенні */
+}
+
+    /* Ефект при наведенні на картку */
+    .property:hover {
+        transform: translateY(-5px); /* Картка піднімається */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Посилена тінь */
+    }
+
+    /* Заголовок */
+    .property h3 {
+        font-size: 1.4em; /* Розмір шрифту заголовка */
+        font-weight: bold; /* Жирний шрифт */
+        color: #333; /* Темний колір для заголовка */
+        margin-bottom: 10px; /* Відступ знизу */
+    }
+
+    /* Опис */
+    .property .description {
+        font-size: 1.1em; /* Розмір шрифту для опису */
+        color: #555; /* Трохи світліший колір */
+        margin-bottom: 10px; /* Відступ знизу */
+    }
+
+    /* Адреса */
+    .property .address {
+        font-size: 1em; /* Розмір шрифту для адреси */
+        color: #888; /* Світліший колір для адреси */
+        margin-bottom: 15px; /* Відступ знизу */
+    }
+
+    /* Ціна */
+    .property .price {
+        font-size: 1.3em; /* Великий розмір шрифту для ціни */
+        font-weight: bold; /* Жирний шрифт */
+        color: #e74c3c; /* Червоний колір для ціни */
+        margin-bottom: 10px; /* Відступ знизу */
+    }
+
+    /* Кількість кімнат */
+    .property .rooms {
+        font-size: 1.1em; /* Розмір шрифту для кількості кімнат */
+        color: #3498db; /* Синій колір для кількості кімнат */
+        margin-bottom: 10px; /* Відступ знизу */
+    }
+
+    /* Площа */
+    .property .square {
+        font-size: 1.1em; /* Розмір шрифту для площі */
+        color: #2ecc71; /* Зелений колір для площі */
+        margin-bottom: 10px; /* Відступ знизу */
+    }
+
+    /* Кнопка для детальної інформації */
+    .property .button {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #3498db; /* Синій фон для кнопки */
+        color: #fff; /* Білий текст */
+        border-radius: 5px; /* Округлені краї */
+        text-decoration: none; /* Без підкреслення */
+        text-align: center;
+        font-size: 1em;
+        margin-top: 10px; /* Відступ знизу */
+        transition: background-color 0.3s ease; /* Анімація при наведенні */
+    }
+
+        /* Ефект при наведенні на кнопку */
+        .property .button:hover {
+            background-color: #2980b9; /* Темніший синій при наведенні */
+        }
+
+/* Стилі для карток оголошень */
+.property {
+    background-color: #fff; /* Білий фон */
+    border-radius: 10px; /* Округлені краї */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тінь для картки */
+    margin: 15px; /* Відступи між картками */
+    padding: 20px; /* Внутрішній відступ */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Анімація при наведенні */
+    max-width: 400px;
+    width: 100%;
+}
+
+    /* Ефект при наведенні на картку */
+    .property:hover {
+        transform: translateY(-5px); /* Картка піднімається */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Посилена тінь */
+    }
+
+    /* Заголовок */
+    .property h3 {
+        font-size: 1.4em; /* Розмір шрифту заголовка */
+        font-weight: bold; /* Жирний шрифт */
+        color: #333; /* Темний колір для заголовка */
+        margin-bottom: 10px; /* Відступ знизу */
+    }
+
+    /* Опис */
+    .property .description {
+        font-size: 1.1em; /* Розмір шрифту для опису */
+        color: #555; /* Трохи світліший колір */
+        margin-bottom: 10px; /* Відступ знизу */
+    }
+
+    /* Адреса */
+    .property .address {
+        font-size: 1em; /* Розмір шрифту для адреси */
+        color: #888; /* Світліший колір для адреси */
+        margin-bottom: 15px; /* Відступ знизу */
+    }
+
+    /* Ціна */
+    .property .price {
+        font-size: 1.3em; /* Великий розмір шрифту для ціни */
+        font-weight: bold; /* Жирний шрифт */
+        color: #e74c3c; /* Червоний колір для ціни */
+        margin-bottom: 10px; /* Відступ знизу */
+    }
+
+    /* Кількість кімнат */
+    .property .rooms {
+        font-size: 1.1em; /* Розмір шрифту для кількості кімнат */
+        color: #3498db; /* Синій колір для кількості кімнат */
+        margin-bottom: 10px; /* Відступ знизу */
+    }
+
+    /* Площа */
+    .property .square {
+        font-size: 1.1em; /* Розмір шрифту для площі */
+        color: #2ecc71; /* Зелений колір для площі */
+        margin-bottom: 10px; /* Відступ знизу */
+    }
+
+    /* Кнопка для детальної інформації */
+    .property .button {
+        display: inline-block;
+        padding: 10px 15px;
+        color: #fff; /* Білий текст */
+        border-radius: 5px; /* Округлені краї */
+        text-decoration: none; /* Без підкреслення */
+        text-align: center;
+        font-size: 1em;
+        margin-top: 10px;
+    }
+
+/* Адаптивність */
+@media (max-width: 768px) {
+    .property {
+        max-width: 100%; /* Картки займають всю ширину на малих екранах */
+        margin: 10px 0; /* Відступи між картками */
+    }
+}
+
+

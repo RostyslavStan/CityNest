@@ -12,13 +12,15 @@
             <div class="logo">CityNest</div>
             <nav>
                 <ul>
-                    <li><a href="index.html">Головна</a></li> <!-- Changed <Link> to <a> -->
+                    <li><a href="index.html">Головна</a></li>
                     <li><a href="/html/properties.html">Оголошення</a></li>
                     <li><a href="/html/agents.html">Агенти</a></li>
                 </ul>
             </nav>
             <div class="auth-buttons">
-                <a href="/html/login.html" class="button">Увійти</a> <!-- Changed <Link> to <a> -->
+                <a href="/html/account.html" class="button">Особистий кабінет</a>
+                <a href="/html/AddProperty.html" class="button">Додати оголошення</a>
+                <a href="/html/login.html" class="button">Увійти</a>
                 <a href="/html/register.html" class="button">Реєстрація</a>
             </div>
         </div>
@@ -27,80 +29,56 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Знайдіть ваш ідеальний дім</h1>
             <div class="search-box">
-                <input type="text" placeholder="Введіть тип нерухомості..." />
-                <button class="button">Пошук</button>
+                <input type="text" id="searchInput" placeholder="Введіть тип нерухомості..." />
+                <button class="button" id="searchButton">Пошук</button>
             </div>
         </div>
     </section>
 
-    <!-- FEATURED LISTINGS -->
-    <section class="featured-listings">
-        <h2>Найкращі пропозиції</h2>
-        <div class="listing-card">
-            <img src="property1.jpg" alt="Нерухомість 1" />
-            <h3>Квартира в центрі</h3>
-            <p>Ціна: 50,000$</p>
-            <a href="#" class="button">Деталі</a>
-        </div>
-        <div class="listing-card">
-            <img src="property2.jpg" alt="Нерухомість 2" />
-            <h3>Будинок на природі</h3>
-            <p>Ціна: 100,000$</p>
-            <a href="#" class="button">Деталі</a>
-        </div>
-        <div class="listing-card">
-            <img src="property3.jpg" alt="Нерухомість 3" />
-            <h3>Студія в новобудові</h3>
-            <p>Ціна: 30,000$</p>
-            <a href="#" class="button">Деталі</a>
-        </div>
-        <div class="listing-card">
-            <img src="property4.jpg" alt="Нерухомість 4" />
-            <h3>Котедж біля озера</h3>
-            <p>Ціна: 80,000$</p>
-            <a href="#" class="button">Деталі</a>
+    <!-- SEARCH RESULTS -->
+    <section class="search-results">
+        <h2>Результати пошуку</h2>
+        <div id="results">
+            <!-- Результати пошуку будуть додаватися сюди -->
         </div>
     </section>
 
-    <!-- OUR SERVICES SECTION -->
-    <section class="services">
-        <h2>Наші послуги</h2>
-        <div class="services-container">
-            <div class="service-card">
-                <h3>Продаж</h3>
-                <p>Ми допоможемо вам продати вашу нерухомість.</p>
-            </div>
-            <div class="service-card">
-                <h3>Оренда</h3>
-                <p>Знайдіть ідеальну квартиру для оренди.</p>
-            </div>
-            <div class="service-card">
-                <h3>Оцінка</h3>
-                <p>Оцінка нерухомості для продажу або покупки.</p>
-            </div>
-            <div class="service-card">
-                <h3>Консультації</h3>
-                <p>Отримайте професійні консультації.</p>
-            </div>
-        </div>
-    </section>
+    <script>
+        document.getElementById('searchButton').addEventListener('click', async function () {
+            const searchQuery = document.getElementById('searchInput').value;
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = 'Завантаження...'; // Повідомлення під час запиту
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <div class="contact-info">
-                <h3>Контакти</h3>
-                <p>Email: info@example.com</p>
-                <p>Телефон: +380 123 456 789</p>
-            </div>
-            <div class="social-links">
-                <h3>Соціальні мережі</h3>
-                <a href="#">Facebook</a>
-                <a href="#">Instagram</a>
-            </div>
-        </div>
-    </footer>
+            try {
+                const response = await fetch(`http://localhost:5094/Properties/search?Search=${encodeURIComponent(searchQuery)}`);
+                const properties = await response.json();
+
+                if (properties.length === 0) {
+                    resultsContainer.innerHTML = 'Немає результатів за вашим запитом.';
+                } else {
+                    resultsContainer.innerHTML = ''; // Очищаємо попередні результати
+                    properties.forEach(property => {
+                        const propertyElement = document.createElement('div');
+                        propertyElement.classList.add('property');
+                        propertyElement.innerHTML = `
+                        <div class="property">
+                            <h3>${property.title}</h3>
+                            <p class="description">${property.description}</p>
+                            <p class="address">Адреса: ${property.address}, ${property.city}, ${property.region}, ${property.postalCode}</p>
+                            <p class="price">Ціна: ${property.price} грн</p>
+                            <p class="rooms">Кількість кімнат: ${property.rooms}</p>
+                            <p class="square">Площа: ${property.square} м²</p>
+                        </div>
+
+                            `;
+                        resultsContainer.appendChild(propertyElement);
+                    });
+                }
+            } catch (error) {
+                resultsContainer.innerHTML = 'Сталася помилка при завантаженні результатів.';
+            }
+        });
+    </script>
 </body>
 </html>
