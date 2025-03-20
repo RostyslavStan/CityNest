@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 
 
 namespace CityNest
@@ -23,15 +22,15 @@ namespace CityNest
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(User user)
+        public async Task Update(UsersRegisterRequest user)
         {
             await dbContext.Users
-            .Where(c => c.Id == user.Id)
+            .Where(c => c.Email == user.Email)
             .ExecuteUpdateAsync(s => s
             .SetProperty(c => c.Name, user.Name)
-            .SetProperty(c => c.Email, user.Email)
             .SetProperty(c => c.PasswordHash, user.PasswordHash)
             .SetProperty(c => c.PhoneNumber, user.PhoneNumber));
+            PasswordHasher.Generate(user.PasswordHash);
         }
 
         public async Task Delete(Guid id)

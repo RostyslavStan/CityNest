@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CityNest
 {
@@ -8,29 +10,33 @@ namespace CityNest
         {
             return await dbContext.Properties.AsNoTracking().ToListAsync();
         }
-        public async Task<Property> GetProperty(string title)
+
+        public async Task<Property> GetProperty(Guid id)
         {
             var property = await dbContext.Properties
-             .Where(p => p.Title == title)  // фільтруємо за id
+                .Where(p => p.Id == id)
                 .FirstOrDefaultAsync();
             return property;
         }
-        public async Task<List<PropertyDtoCard>> GetFilter()
+        public async Task<List<Property>> SearchProperties(string searchString)
         {
-            // Вибір лише потрібних полів з бази даних
-            return await dbContext.Properties
-                .AsNoTracking()  // Для покращення продуктивності
-                .Select(n => new PropertyDtoCard(
-                    n.Title,        // Назва
-                    n.City,         // Місто
-                    n.Price,        // Ціна
-                    n.Rooms,        // Кількість кімнат
-                    n.Square,       // Площа
-                    n.Images        // Список зображень
-                ))
-                .ToListAsync();
-        }
+            var searchWords = searchString
+                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(word => word.ToLower())
+                .ToList();
 
+            var properties = dbContext.Properties.AsNoTracking();
+
+            foreach (var word in searchWords)
+            {
+                properties = properties.Where(p =>
+                    p.Title.ToLower().Contains(word) ||
+                    p.Description.ToLower().Contains(word) ||
+                    p.City.ToLower().Contains(word));
+            }
+
+            return properties.AsEnumerable().ToList();
+        }
 
 
         public async Task Add(Property property)
@@ -46,18 +52,12 @@ namespace CityNest
                 .ExecuteUpdateAsync(p => p
                     .SetProperty(p => p.Title, property.Title)
                     .SetProperty(p => p.Description, property.Description)
-                    .SetProperty(p => p.Address, property.Address)
                     .SetProperty(p => p.City, property.City)
-                    .SetProperty(p => p.Region, property.Region)
-                    .SetProperty(p => p.PostalCode, property.PostalCode)
                     .SetProperty(p => p.Price, property.Price)
                     .SetProperty(p => p.Rooms, property.Rooms)
-                    .SetProperty(p => p.Square, property.Square)
-                    .SetProperty(p => p.PropertyType, property.PropertyType)
-                    .SetProperty(p => p.IsForSale, property.IsForSale)
-                    .SetProperty(p => p.AgentsId, property.AgentsId)
                     .SetProperty(p => p.Images, property.Images));
             await dbContext.SaveChangesAsync();
+
         }
 
         public async Task Delete(Guid id)
@@ -66,5 +66,31 @@ namespace CityNest
             .ExecuteDeleteAsync();
             await dbContext.SaveChangesAsync();
         }
+        public async Task<List<Property>> FilterProperties(
+            decimal? minPrice = null,
+            decimal? maxPrice = null,
+            int? rooms = null)
+        {
+            var query = dbContext.Properties.AsQueryable();
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => p.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => p.Price <= maxPrice.Value);
+            }
+
+            if (rooms.HasValue)
+            {
+                query = query.Where(p => p.Rooms == rooms.Value);
+            }
+
+            return await query.ToListAsync();
+        }
+
+
     }
 }

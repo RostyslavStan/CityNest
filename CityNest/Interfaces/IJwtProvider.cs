@@ -2,8 +2,6 @@
 {
     public interface IJwtProvider
     {
-        public string GenerateTokenForUser(User user);
-        public string GenerateTokenForAgent(Agent agent);
-
+        public string GenerateToken(User user);
     }
 }

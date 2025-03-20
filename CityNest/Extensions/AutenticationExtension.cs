@@ -42,15 +42,6 @@ namespace CityNest
                     policy.RequireRole("User"); 
                     policy.RequireClaim("User", "true"); 
                 });
-
-                options.AddPolicy("AgentPolicy", policy =>
-                {
-                    policy.RequireClaim("Agent", "true"); 
-
-                    policy.RequireRole("Agent");
-                    policy.RequireAssertion(context =>
-                    context.User.HasClaim(c => c.Type == ClaimTypes.Email && c.Value.EndsWith("@lnu.edu.ua")));
-                });
             });
         }
     }

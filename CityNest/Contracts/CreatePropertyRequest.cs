@@ -1,19 +1,17 @@
-﻿namespace CityNest
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace CityNest
 {
-    public record CreatePropertyRequest(
-        string title,
-        string description,
-        string address,
-        string city,
-        string region,
-        int postalCode,
-        decimal price,
-        int rooms,
-        int square,
-        PropertyType propertyType,
-        OfferType offerType,
-        bool isForSale,
-        List<string> images,
-        Guid agentsId,
-        DateTime? dateUpdated = null );
+    public class CreatePropertyRequest
+    {
+        public string title { get; set; } = string.Empty;
+        public string description { get; set; } = string.Empty;
+        public string city { get; set; } = string.Empty;
+        public decimal price { get; set; }
+        public int rooms { get; set; }
+        
+        [FromForm]  
+        public List<IFormFile> images { get; set; } = new List<IFormFile>();
+    }
+
 }

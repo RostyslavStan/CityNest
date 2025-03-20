@@ -1,5 +1,6 @@
 using CityNest;
-using CityNest.Interfaces;
+using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +13,6 @@ builder.Services.AddApiAuthentication(builder.Configuration);
 builder.Services.AddScoped<IPropertiesServices, PropertiesServices>();
 builder.Services.AddScoped<IPropertiesRepository, PropertiesRepository>();
 
-builder.Services.AddScoped<IAgentsRepository, AgentsRepository>();
-
 builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
 
 builder.Services.AddDbContext<RealStateDbContext>();
@@ -22,11 +21,24 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+    c.MapType<IFormFile>(() => new OpenApiSchema { Type = "string", Format = "binary" });
+});
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddDefaultPolicy(policy =>
     {
-        policy.AllowAnyOrigin()  
+        policy.WithOrigins("http://localhost:5173")  
             .AllowAnyMethod() 
             .AllowAnyHeader();  
     });
@@ -45,7 +57,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors("AllowAll");
+app.UseCors();
 
 app.MapGet("/", async context =>
 {

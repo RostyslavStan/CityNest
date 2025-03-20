@@ -1,78 +1,52 @@
-﻿using CityNest.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace CityNest
 {
-    public class UsersServices: IUsersServices
+    public class UsersServices : IUsersServices
     {
         private readonly IUsersRepository usersRepository;
-        private readonly IAgentsRepository agentsRepository;
         private readonly IJwtProvider jwtProvider;
-
-        public UsersServices(IUsersRepository usersRepository, IAgentsRepository agentsRepository, IJwtProvider jwtProvider)
+        public UsersServices(
+            IUsersRepository usersRepository,
+            IJwtProvider jwtProvider)
         {
             this.usersRepository = usersRepository;
             this.jwtProvider = jwtProvider;
-            this.agentsRepository = agentsRepository;
         }
-        public async Task Register(string Name, string Email, string Password, long PhoneNumber)
+
+        public async Task<User> Register(string Name, string Email, string Password, long PhoneNumber)
         {
             var hashedPassword = PasswordHasher.Generate(Password);
+            var user = new User(Name, Email, hashedPassword, PhoneNumber);
 
-            if (Email.EndsWith("@lnu.edu.ua"))
-            {
-                var agent = new Agent(Guid.NewGuid(), Name, Email, hashedPassword, PhoneNumber);
-                await agentsRepository.Add(agent);
-            }
-            else
-            {
-                var user = new User(Guid.NewGuid(), Name, Email, hashedPassword, PhoneNumber);
-
-                await usersRepository.Add(user);
-            }
+            await usersRepository.Add(user);
+            return user;
         }
 
         public async Task<string> Login(string password, string email)
         {
-            
-            if (email.EndsWith("@lnu.edu.ua"))
+            var user = await usersRepository.GetByEmail(email);
+
+            var result = PasswordHasher.Verify(password, user.PasswordHash);
+
+            if (result == false)
             {
-                var agent = await agentsRepository.GetByEmail(email);
-
-                var result = PasswordHasher.Verify(password, agent.PasswordHash);
-
-                if (result == false)
-                {
-                    throw new Exception("Failed to login");
-                }
-
-                var token = jwtProvider.GenerateTokenForAgent(agent);
-                return token;
+                throw new Exception("Failed to login");
             }
-            else
-            {
-                var user = await usersRepository.GetByEmail(email);
 
-                var result = PasswordHasher.Verify(password, user.PasswordHash);
-
-                if (result == false)
-                {
-                    throw new Exception("Failed to login");
-                }
-
-                var token = jwtProvider.GenerateTokenForUser(user);
-                return token;
-            }
+            var token = jwtProvider.GenerateToken(user);
+            return token;
         }
-        public async Task Update(User user)
+        public async Task Update(UsersRegisterRequest user)
         {
             await usersRepository.Update(user);
         }
 
-        public async Task Delete(Guid Id)
+        public async Task Delete(Guid id)
         {
-            await usersRepository.Delete(Id);
+
+            await usersRepository.Delete(id);
         }
     }
 }

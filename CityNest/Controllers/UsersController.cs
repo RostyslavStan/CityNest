@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
-using System.Xml.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CityNest
+namespace CityNest.Controllers
 {
     [ApiController]
     [Route("Users")]
@@ -18,14 +15,14 @@ namespace CityNest
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UsersDto request)
+        public async Task<IActionResult> Register([FromBody] UsersRegisterRequest request)
         {
-                var response = usersServices.Register(request.Name, request.Email, request.Password, request.PhoneNumber);
-                return Ok(response.Id);
+            var response = await usersServices.Register(request.Name, request.Email, request.PasswordHash, request.PhoneNumber);
+            return Ok(response.Id);
         }
-        
+
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UsersLoginDto request)
+        public async Task<IActionResult> Login([FromBody] UsersLoginRequest request)
         {
             var token = await usersServices.Login(request.password, request.email);
 
@@ -33,15 +30,15 @@ namespace CityNest
             return Ok(new { Token = token });
         }
 
-        [HttpDelete("{id.guid}")]
-        public async Task<IActionResult> DeleteUser([FromBody] Guid Id)
+        [HttpDelete("deleteUser")]
+        public async Task<IActionResult> DeleteUser([FromBody] Guid id)
         {
-            await usersServices.Delete(Id);
+            await usersServices.Delete(id);
             return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] User user)
+        public async Task<IActionResult> UpdateUser([FromBody] UsersRegisterRequest user)
         {
             await usersServices.Update(user);
             return Ok();
