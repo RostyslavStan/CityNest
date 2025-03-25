@@ -30,6 +30,7 @@ namespace CityNest
             Rooms = rooms;
             Images = images;
         }
+        [JsonConstructor]
         public Property(
             string title,
             string description,

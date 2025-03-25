@@ -15,7 +15,7 @@ namespace CityNest
             this.jwtProvider = jwtProvider;
         }
 
-        public async Task<User> Register(string Name, string Email, string Password, long PhoneNumber)
+        public async Task<User> Register(string Name, string Email, string Password, string PhoneNumber)
         {
             var hashedPassword = PasswordHasher.Generate(Password);
             var user = new User(Name, Email, hashedPassword, PhoneNumber);

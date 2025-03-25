@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CityNest.Controllers
 {
@@ -17,7 +18,7 @@ namespace CityNest.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UsersRegisterRequest request)
         {
-            var response = await usersServices.Register(request.Name, request.Email, request.PasswordHash, request.PhoneNumber);
+            var response = await usersServices.Register(request.name, request.email, request.passwordHash, request.phoneNumber);
             return Ok(response.Id);
         }
 

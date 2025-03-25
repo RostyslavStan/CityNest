@@ -2,12 +2,13 @@
 {
     public interface IPropertiesServices
     {
-        Task AddProperty(CreatePropertyRequest request, Guid userId);
-        Task DeleteProperty(Guid Id);
-        Task<List<Property>> Get();
-        Task<Property> GetProperty(Guid id);
-        Task<List<Property>> SearchProperties(string searchString);
-        Task UpdateProperty(Property property);
+        public Task AddProperty(CreatePropertyRequest request, Guid userId);
+        public Task DeleteProperty(Guid Id);
+        public Task<List<Property>> Get();
+        public Task<List<Property>> GetMyProperties(Guid userId);
+        public Task<Property> GetProperty(Guid id);
+        public Task<List<Property>> SearchProperties(string searchString);
+        public Task<Property> UpdateProperty(Guid Id, CreatePropertyRequest request);
         public Task<List<Property>> FilterProperties(
             decimal? minPrice = null,
             decimal? maxPrice = null,

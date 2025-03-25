@@ -11,6 +11,12 @@ namespace CityNest
             return await dbContext.Properties.AsNoTracking().ToListAsync();
         }
 
+        public async Task<List<Property>> GetMyProperties(Guid userId)
+        {
+            var myProperties = await dbContext.Properties.Where(x => x.UserId == userId).ToListAsync();
+            return myProperties;
+        }
+
         public async Task<Property> GetProperty(Guid id)
         {
             var property = await dbContext.Properties
@@ -45,10 +51,10 @@ namespace CityNest
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(Property property)
+        public async Task<Property> Update(Guid Id, PropertyDto property)
         {
             await dbContext.Properties
-                .Where(p => p.Id == property.Id)
+                .Where(p => p.Id == Id)
                 .ExecuteUpdateAsync(p => p
                     .SetProperty(p => p.Title, property.Title)
                     .SetProperty(p => p.Description, property.Description)
@@ -57,7 +63,9 @@ namespace CityNest
                     .SetProperty(p => p.Rooms, property.Rooms)
                     .SetProperty(p => p.Images, property.Images));
             await dbContext.SaveChangesAsync();
-
+            var updatedProperty = await dbContext.Properties
+                .FirstOrDefaultAsync(p => p.Id == Id);
+            return await dbContext.Properties.FirstOrDefaultAsync(p => p.Id == Id);
         }
 
         public async Task Delete(Guid id)

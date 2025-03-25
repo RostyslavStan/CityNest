@@ -1,5 +1,6 @@
 ﻿using CityNest.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -23,17 +24,16 @@ namespace CityNest
         {
             var properties = await propertiesService.Get();
 
-            var responce = properties.Select(n => new Property(
-                n.Title,
-                n.Description,
-                n.City,
-                n.Price,
-                n.Rooms,
-                n.Images)).ToList();
-
-            return Ok(responce);
+            return Ok(properties);
         }
 
+        [HttpGet("myProperties")]
+        public async Task<IActionResult> GetMyProperties()
+        {
+            var userId = User.GetUserId();
+            var properties = await propertiesService.GetMyProperties(userId);
+            return Ok(properties);
+        }
 
         [HttpGet("property")]
         public async Task<IActionResult> GetProperty([FromQuery] Guid id)
@@ -60,11 +60,11 @@ namespace CityNest
             return Ok();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateProperty(Property property)
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateProperty(Guid Id,[FromForm] CreatePropertyRequest request)
         {
-            await propertiesService.UpdateProperty(property);
-            return Ok();
+            var updatedProperty = await propertiesService.UpdateProperty(Id, request);
+            return Ok(updatedProperty);
         }
 
         [HttpGet("search")]

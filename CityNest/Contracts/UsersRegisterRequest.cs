@@ -1,8 +1,8 @@
 ﻿namespace CityNest
 {
     public record UsersRegisterRequest(
-        string Name,
-        string Email, 
-        string PasswordHash, 
-        long PhoneNumber);
+        string name,
+        string email, 
+        string passwordHash, 
+        string phoneNumber);
 }

@@ -25,12 +25,12 @@ namespace CityNest
         public async Task Update(UsersRegisterRequest user)
         {
             await dbContext.Users
-            .Where(c => c.Email == user.Email)
+            .Where(c => c.Email == user.email)
             .ExecuteUpdateAsync(s => s
-            .SetProperty(c => c.Name, user.Name)
-            .SetProperty(c => c.PasswordHash, user.PasswordHash)
-            .SetProperty(c => c.PhoneNumber, user.PhoneNumber));
-            PasswordHasher.Generate(user.PasswordHash);
+            .SetProperty(c => c.Name, user.name)
+            .SetProperty(c => c.PasswordHash, user.passwordHash)
+            .SetProperty(c => c.PhoneNumber, user.phoneNumber));
+            PasswordHasher.Generate(user.passwordHash);
         }
 
         public async Task Delete(Guid id)

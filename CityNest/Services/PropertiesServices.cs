@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -15,6 +16,11 @@ namespace CityNest
         public async Task<List<Property>> Get()
         {
             return await propertiesRepository.Get();
+        }
+
+        public async Task<List<Property>> GetMyProperties(Guid userId)
+        {
+            return await propertiesRepository.GetMyProperties(userId);
         }
 
         public async Task<Property> GetProperty(Guid id)
@@ -47,8 +53,7 @@ namespace CityNest
             }
             return imageUrls;
         }
-
-        public async Task AddProperty([FromForm] CreatePropertyRequest request, Guid userId)
+        public async Task AddProperty(CreatePropertyRequest request, Guid userId)
         {
             var imageUrls = await SaveImages(request);
             var property = new Property(
@@ -63,9 +68,17 @@ namespace CityNest
             await propertiesRepository.Add(property);
         }
 
-        public async Task UpdateProperty(Property property)
+        public async Task<Property> UpdateProperty(Guid Id, CreatePropertyRequest request)
         {
-            await propertiesRepository.Update(property);
+            var imageUrls = await SaveImages(request);
+            var property = new PropertyDto(
+                request.title,
+                request.description,
+                request.city,
+                request.price,
+                request.rooms,
+                imageUrls);
+            return await propertiesRepository.Update(Id, property);
         }
 
         public async Task DeleteProperty(Guid Id)
